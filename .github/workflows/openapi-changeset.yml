@@ -37,7 +37,9 @@ jobs:
           EOF
 
           git add .changeset/openapi-update.md
-          git commit -m "ci(changeset): add OpenAPI changeset" || exit 0
+          git commit \
+            -m "ci(changeset): add OpenAPI changeset" \
+            --author="github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
           git push origin update-openapi
 
       - name: Enable auto-merge for update-openapi PR
