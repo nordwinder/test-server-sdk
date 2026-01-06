@@ -3,13 +3,28 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "generate": "orval",
-    "test": "vitest"
+    "generate": "pnpm orval",
+    "build": "pnpm orval",
+    "eslint": "eslint \"**/*.ts\"",
+    "eslint:fix": "eslint \"**/*.ts\" --fix",
+    "type-check": "tsc -p .",
+    "lint": "pnpm eslint && pnpm type-check",
+    "test": "vitest run --disable-console-intercept"
   },
   "devDependencies": {
-    "orval": "^7",
-    "typescript": "^5",
-    "vitest": "^4"
+    "@crypticdot/eslint-config": "^1.0.3",
+    "@crypticdot/prettier-config": "^1.0.0",
+    "@crypticdot/typescript-config": "^1.0.0",
+    "@types/node": "^22.13.14",
+    "dotenv": "^16.4.7",
+    "eslint": "^8.57.0",
+    "openapi3-ts": "^4.5.0",
+    "orval": "^7.17.0",
+    "prettier-plugin-tailwindcss": "^0.7.2",
+    "tsup": "^8.3.5",
+    "typescript": "5.8.3",
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest": "^3.0.9"
   },
   "packageManager": "pnpm@10.27.0+sha512.72d699da16b1179c14ba9e64dc71c9a40988cbdc65c264cb0e489db7de917f20dcf4d64d8723625f2969ba52d4b7e2a1170682d9ac2a5dcaeaab732b7e16f04a"
 }

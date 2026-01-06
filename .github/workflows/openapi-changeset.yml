@@ -1,0 +1,47 @@
+name: Add changeset for OpenAPI PR (after tests)
+
+on:
+  workflow_run:
+    workflows: ["Test"]
+    types:
+      - completed
+
+jobs:
+  openapi-changeset:
+    if: >
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'pull_request' &&
+      github.event.workflow_run.head_branch == 'update-openapi'
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout PR
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+          persist-credentials: false
+
+      - name: Create OpenAPI changeset
+        run: |
+          mkdir -p .changeset
+          cat <<EOF > .changeset/openapi-update.md
+          ---
+          "@crypticdot/defituna-api": patch
+          ---
+
+          Update OpenAPI specification.
+
+          Generated automatically after successful SDK tests.
+          EOF
+
+      - name: Create changeset release PR
+        uses: peter-evans/create-pull-request@v8
+        with:
+          token: ${{ secrets.PAT_GITHUB_ACTIONS }}
+          branch: changeset-release/main
+          base: update-openapi
+          commit-message: "ci(release): apply OpenAPI changeset"
+          title: "Release: OpenAPI update"
+          body: |
+            Automated OpenAPI release.
