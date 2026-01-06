@@ -38,6 +38,7 @@ jobs:
       - name: Create changeset release PR
         uses: peter-evans/create-pull-request@v8
         with:
+          token: ${{ secrets.SDK_REPO_TOKEN }}
           branch: changeset-release/main
           base: main
           commit-message: "ci(release): apply OpenAPI changeset"
