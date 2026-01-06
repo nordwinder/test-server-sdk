@@ -25,7 +25,7 @@ jobs:
         with:
           ref: update-openapi
 
-      - name: Add OpenAPI changeset
+      - name: Add changeset file
         run: |
           mkdir -p .changeset
           cat <<EOF > .changeset/openapi-update.md
@@ -36,10 +36,10 @@ jobs:
           Update OpenAPI specification.
           EOF
 
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
           git add .changeset/openapi-update.md
-          git commit \
-            -m "ci(changeset): add OpenAPI changeset" \
-            --author="github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
+          git commit -m "ci(changeset): add OpenAPI changeset"
           git push origin update-openapi
 
       - name: Enable auto-merge for update-openapi PR
