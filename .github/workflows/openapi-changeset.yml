@@ -51,4 +51,6 @@ jobs:
             Automated OpenAPI release.
 
       - name: Close OpenAPI PR and delete update-openapi branch
+        env:
+          GH_TOKEN: ${{ secrets.SDK_REPO_TOKEN }}
         run: gh pr close update-openapi --delete-branch

@@ -12,7 +12,6 @@ jobs:
     if: github.repository == 'nordwinder/test-server-sdk' && github.head_ref == 'changeset-release/main'
     steps:
       - name: Enable auto-merge for changeset PRs
-        run: gh pr merge --auto --rebase "$PR_URL"
         env:
-          PR_URL: ${{github.event.pull_request.html_url}}
-          GITHUB_TOKEN: ${{secrets.SDK_REPO_TOKEN}}
+          GH_TOKEN: ${{ secrets.SDK_REPO_TOKEN }}
+        run: gh pr merge --auto --rebase "$PR_URL"
