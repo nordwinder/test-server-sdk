@@ -2,7 +2,8 @@ name: Add changeset for OpenAPI PR (after tests)
 
 on:
   workflow_run:
-    workflows: ["Test"]
+    workflows:
+      - Test
     types:
       - completed
 
@@ -16,10 +17,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout PR
+      - name: Checkout update-openapi branch
         uses: actions/checkout@v6
         with:
-          ref: ${{ github.event.workflow_run.head_sha }}
+          ref: update-openapi
           persist-credentials: false
 
       - name: Create OpenAPI changeset
@@ -38,7 +39,6 @@ jobs:
       - name: Create changeset release PR
         uses: peter-evans/create-pull-request@v8
         with:
-          token: ${{ secrets.PAT_GITHUB_ACTIONS }}
           branch: changeset-release/main
           base: update-openapi
           commit-message: "ci(release): apply OpenAPI changeset"
