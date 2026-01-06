@@ -4,10 +4,12 @@ on:
     branches:
       - "**"
       - "!main"
+      - "!changeset-release/main"
   pull_request:
     branches:
       - "**"
       - "!main"
+      - "!changeset-release/main"
 
 jobs:
   test:

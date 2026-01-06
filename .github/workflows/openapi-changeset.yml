@@ -12,7 +12,7 @@ permissions:
   pull-requests: write
 
 jobs:
-  openapi-changeset:
+  add-changeset:
     if: >
       github.event.workflow_run.conclusion == 'success' &&
       github.event.workflow_run.head_branch == 'update-openapi'
@@ -24,33 +24,23 @@ jobs:
         uses: actions/checkout@v6
         with:
           ref: update-openapi
-          persist-credentials: false
 
-      - name: Create OpenAPI changeset
+      - name: Add OpenAPI changeset
         run: |
           mkdir -p .changeset
           cat <<EOF > .changeset/openapi-update.md
           ---
-          "@crypticdot/defituna-api": patch
+          "@nordwinder/test-server-sdk": patch
           ---
 
           Update OpenAPI specification.
-
-          Generated automatically after successful SDK tests.
           EOF
 
-      - name: Create changeset release PR
-        uses: peter-evans/create-pull-request@v8
-        with:
-          token: ${{ secrets.SDK_REPO_TOKEN }}
-          branch: changeset-release/main
-          base: main
-          commit-message: "ci(release): apply OpenAPI changeset"
-          title: "Release: OpenAPI update"
-          body: |
-            Automated OpenAPI release.
+          git add .changeset/openapi-update.md
+          git commit -m "ci(changeset): add OpenAPI changeset" || exit 0
+          git push origin update-openapi
 
-      - name: Close OpenAPI PR and delete update-openapi branch
+      - name: Enable auto-merge for update-openapi PR
         env:
           GH_TOKEN: ${{ secrets.SDK_REPO_TOKEN }}
-        run: gh pr close update-openapi --delete-branch
+        run: gh pr merge update-openapi --auto --merge
