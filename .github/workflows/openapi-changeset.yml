@@ -35,7 +35,6 @@ jobs:
           fi
 
       - name: Add changeset file
-        if: steps.changeset.outputs.exists == 'false'
         run: |
           mkdir -p .changeset
           cat <<EOF > .changeset/openapi-update.md
@@ -53,7 +52,6 @@ jobs:
           git push origin update-openapi
 
 #      - name: Enable auto-merge for update-openapi PR
-#        if: steps.changeset.outputs.exists == 'false'
 #        env:
 #          GH_TOKEN: ${{ secrets.SDK_REPO_TOKEN }}
 #        run: gh pr merge update-openapi --auto --merge
