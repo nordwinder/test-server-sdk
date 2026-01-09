@@ -26,7 +26,17 @@ jobs:
         with:
           ref: update-openapi
 
+      - name: Check if changeset file already exists
+        id: changeset
+        run: |
+          if [ -f .changeset/openapi-update.md ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Add changeset file
+        if: steps.changeset.outputs.exists == 'false'
         run: |
           mkdir -p .changeset
           cat <<EOF > .changeset/openapi-update.md
@@ -44,6 +54,7 @@ jobs:
           git push origin update-openapi
 
 #      - name: Enable auto-merge for update-openapi PR
+#        if: steps.changeset.outputs.exists == 'false'
 #        env:
 #          GH_TOKEN: ${{ secrets.SDK_REPO_TOKEN }}
 #        run: gh pr merge update-openapi --auto --merge
