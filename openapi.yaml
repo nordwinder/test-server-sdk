@@ -26,9 +26,12 @@ components:
       required:
       - message
       - value
+      - some
       properties:
         message:
           type: string
+        some:
+          type: boolean
         value:
           type: string
 tags:
