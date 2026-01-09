@@ -35,6 +35,7 @@ jobs:
           fi
 
       - name: Add changeset file
+        if: steps.changeset.outputs.exists == 'false'
         run: |
           mkdir -p .changeset
           cat <<EOF > .changeset/openapi-update.md
