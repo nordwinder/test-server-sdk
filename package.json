@@ -12,6 +12,7 @@
     "test": "vitest run --disable-console-intercept"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.29.8",
     "@crypticdot/eslint-config": "^1.0.3",
     "@crypticdot/prettier-config": "^1.0.0",
     "@crypticdot/typescript-config": "^1.0.0",

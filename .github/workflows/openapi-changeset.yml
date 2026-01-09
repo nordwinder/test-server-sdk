@@ -15,7 +15,8 @@ jobs:
   add-changeset:
     if: >
       github.event.workflow_run.conclusion == 'success' &&
-      github.event.workflow_run.head_branch == 'update-openapi'
+      github.event.workflow_run.head_branch == 'update-openapi' &&
+      ${{ hashFiles('.changeset/openapi-update.md') == '' }}
 
     runs-on: ubuntu-latest
 
@@ -33,16 +34,16 @@ jobs:
           "@nordwinder/test-server-sdk": patch
           ---
 
-          Update OpenAPI specification.
+          Automated update of the OpenAPI specification.
           EOF
 
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add .changeset/openapi-update.md
-          git commit -m "ci(changeset): add OpenAPI changeset"
+          git commit -m "Add changeset file for OpenAPI update"
           git push origin update-openapi
 
-      - name: Enable auto-merge for update-openapi PR
-        env:
-          GH_TOKEN: ${{ secrets.SDK_REPO_TOKEN }}
-        run: gh pr merge update-openapi --auto --merge
+#      - name: Enable auto-merge for update-openapi PR
+#        env:
+#          GH_TOKEN: ${{ secrets.SDK_REPO_TOKEN }}
+#        run: gh pr merge update-openapi --auto --merge
