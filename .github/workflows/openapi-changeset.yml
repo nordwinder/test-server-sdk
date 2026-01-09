@@ -15,8 +15,7 @@ jobs:
   add-changeset:
     if: >
       github.event.workflow_run.conclusion == 'success' &&
-      github.event.workflow_run.head_branch == 'update-openapi' &&
-      ${{ hashFiles('.changeset/openapi-update.md') == '' }}
+      github.event.workflow_run.head_branch == 'update-openapi'
 
     runs-on: ubuntu-latest
 
