@@ -25,16 +25,21 @@ components:
       type: object
       required:
       - message
-      - number
-      - value
+      - qqq
+      - ppp
+      - ooo
       properties:
         message:
           type: string
-        number:
+        ooo:
           type: integer
           format: int32
-        value:
-          type: string
+        ppp:
+          type: integer
+          format: int32
+        qqq:
+          type: integer
+          format: int32
 tags:
 - name: Test
   description: Test endpoints
